@@ -1,0 +1,29 @@
+{
+  "name": "r-test-node-tool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && node ./dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "dev": "ts-node ./src/index.ts",
+    "format": "prettier --write './src/**/*.{js,ts,tsx}'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyousay/R_test-node-tool.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kyousay/R_test-node-tool/issues"
+  },
+  "homepage": "https://github.com/kyousay/R_test-node-tool#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
+  }
+}
