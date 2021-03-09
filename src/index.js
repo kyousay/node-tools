@@ -1,10 +1,12 @@
-import puppeteer from 'puppeteer';
-import xlsx from 'xlsx';
-import fs from 'fs';
-import path from 'path';
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
 
-type ArgumentTypes<T> = T extends (options: infer I ) => any ? I : never;
-type LaunchOptionType = ArgumentTypes<typeof puppeteer.launch>
+// path
+const CWD = process.cwd();
+const resource = path.join(CWD, 'resource');
+const inputDir = path.join(resource, 'input');
+const outputDir = path.join(resource, 'output');
 
 const testURL = [
 	'https://suumo.jp/hokkaido/',
@@ -19,9 +21,15 @@ const testURL = [
 ];
 
 (async () => {
-	const options: LaunchOptionType = {
-		headless: false,
-		slowMo: 300  // 動作を遅く(ページの読み込みが遅いことを考慮して常時必要)
+	// make ouput directory
+	if(!fs.existsSync(outputDir)) {
+		fs.mkdirSync('./resource/output');
+	}
+
+	// puppeteer launch options
+	const options = {
+		// headless: false,
+		// slowMo: 300  // 動作を遅く(ページの読み込みが遅いことを考慮して常時必要)
 	};
 	const browser = await puppeteer.launch(options);
 	const page = await browser.newPage();
