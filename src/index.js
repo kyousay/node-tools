@@ -1,12 +1,16 @@
+// puppeteer
 const puppeteer = require('puppeteer');
+
+// node builtin
 const fs = require('fs');
 const path = require('path');
 
+// excel4node
+const xl = require('excel4node');
+const wb = new xl.Workbook();
+
 // path
-const CWD = process.cwd();
-const resource = path.join(CWD, 'resource');
-const inputDir = path.join(resource, 'input');
-const outputDir = path.join(resource, 'output');
+const outputDir = path.join('./resource', 'output');
 
 const testURL = [
 	'https://suumo.jp/hokkaido/',
@@ -37,7 +41,27 @@ const testURL = [
 	for(let i = 0; i < testURL.length; i++) {
 		await page.goto(testURL[i]);
 		await page.screenshot({ path: `./resource/output/${i + 1}.png`, fullPage: true});
+
+		const ws = wb.addWorksheet(`Sheets ${i + 1}`);
+
+		ws.cell(3, 4).string(testURL[i]);
+
+		ws.addImage({
+			path: `./resource/output/${i + 1}.png`,
+			type: 'picture',
+			position: {
+			type: 'oneCellAnchor',
+			from: {
+				col: 5,
+				colOff: '0.5in',
+				row: 8,
+				rowOff: 0,
+			},
+			},
+		});
 	}
 
 	await browser.close();
+	
+	wb.write('./resource/output/ScreenShot.xlsx');
 })();
